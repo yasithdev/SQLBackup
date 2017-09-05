@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLBackup", "SQLBackup\SQLBackup.csproj", "{1521AF71-28B4-4740-A040-EF9337F2F98B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLBackupTest", "SQLBackupTest\SQLBackupTest.csproj", "{EC7D735E-AB93-4AA6-8C8D-6E7A1778A725}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1521AF71-28B4-4740-A040-EF9337F2F98B} = {1521AF71-28B4-4740-A040-EF9337F2F98B}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1521AF71-28B4-4740-A040-EF9337F2F98B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1521AF71-28B4-4740-A040-EF9337F2F98B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1521AF71-28B4-4740-A040-EF9337F2F98B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1521AF71-28B4-4740-A040-EF9337F2F98B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC7D735E-AB93-4AA6-8C8D-6E7A1778A725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC7D735E-AB93-4AA6-8C8D-6E7A1778A725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC7D735E-AB93-4AA6-8C8D-6E7A1778A725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC7D735E-AB93-4AA6-8C8D-6E7A1778A725}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F5E72CE-17DC-46A2-99FB-6571662C964D}
+	EndGlobalSection
+EndGlobal
