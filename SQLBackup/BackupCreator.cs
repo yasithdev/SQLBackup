@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -5,7 +6,7 @@ using SQLBackup.SQLObjects;
 
 namespace SQLBackup
 {
-    internal class BackupCreator
+    internal class BackupCreator : IDisposable
     {
         private readonly DbReader _dbReader;
         private readonly StreamWriter _streamWriter;
@@ -108,6 +109,12 @@ namespace SQLBackup
 
             // Insert New Line
             _streamWriter.WriteLine();
+        }
+
+        public void Dispose()
+        {
+            _streamWriter.Flush();
+            _streamWriter?.Dispose();
         }
     }
 }
