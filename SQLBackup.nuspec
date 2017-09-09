@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SQLBackup</id>
+    <version>1.0.0</version>
+    <description>SQL Backup/Restore Toolkit for .NET</description>
+    <authors>Yasith Jayawardana</authors>
+
+    <owners>Yasith Jayawardana</owners>
+    <projectUrl>https://github.com/yasithmilinda/SQLBackup</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/yasithmilinda/SQLBackup/master/LICENSE</licenseUrl>
+    <copyright>Copyright © 2017</copyright>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <releaseNotes>Initial Release. Supports both Encrypted and Raw Backups</releaseNotes>
+    <minClientVersion>3.5</minClientVersion>
+    <tags>SQL Backup</tags>
+    <dependencies></dependencies>
+  </metadata>
+  <files>
+    <file src="SQLBackup\bin\Release\SQLBackup.dll" target="lib\SQLBackup.dll"/>
+  </files>
+</package>

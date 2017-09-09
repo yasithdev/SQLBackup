@@ -65,7 +65,7 @@ namespace SQLBackup
             {
                 // Current Line
                 var line = sr.ReadLine()?.Trim();
-                if (string.IsNullOrWhiteSpace(line)) continue;
+                if (string.IsNullOrEmpty(line)) continue;
                 // First Character of Line
                 var chr = line[0];
                 if (chr == '#' || chr == '-') continue;

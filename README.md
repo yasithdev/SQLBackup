@@ -3,6 +3,8 @@
 ## What is SQLBackup?
 **SQLBackup** is a toolkit for .NET developers that allow them to create SQL Dumps of their databases and restore from them without depending on `mysqldump` and other external executables.
 
+**Updated Feature: ** Added Encryption Support. To use encryption, simply use `SQLBackupEncrypted` class instead of `SQLBackup` class
+
 ### Supported Databases
 The current version of SQLBackup supports **MySQL** and **MariaDB**.
 
@@ -24,14 +26,12 @@ using (IDBConnection connection = new MySqlConnection(someConnectionString))
     var command = connection.CreateCommand();
     // To Create a SQLBackup instance, you need an instance of IDBCommand
     var backupProvider = new SqlBackup(command);
-    // To create a Backup, the method accepts a StreamWriter object, to which it writes SQL.
-    var streamWriter = new StreamWriter(someStream);
-    backupProvider.BackupDb(streamWriter);
+    backupProvider.BackupDb(someStream);
 }
 ```
 Here, if a `MemoryStream` is used as the underlying Stream, you can obtain a `string` output (if required), simply by calling 
 ```C#
-new StreamReader(memoryStream).ReadToEnd();
+new StreamReader(someStream).ReadToEnd();
 ```
 
 ### 2. Restore from a Stream
@@ -46,9 +46,7 @@ using (IDBConnection connection = new MySqlConnection(someConnectionString))
     var command = connection.CreateCommand();
     // To Create a SQLBackup instance, you need an instance of IDBCommand
     var backupProvider = new SqlBackup(command);
-    // To restore from a Backup, the method accepts a StreamReader object, using which it can read the SQL.
-    var streamReader = new StreamReader(someStream);
-    backupProvider.RestoreDb(streamReader);
+    backupProvider.RestoreDb(someStream);
 }
 ```
 
@@ -58,9 +56,10 @@ NOTE: Restoring from a string input is discouraged since it increases the memory
 public static Stream StringToStream(string s)
 {
     MemoryStream stream = new MemoryStream();
-    StreamWriter writer = new StreamWriter(stream);
-    writer.Write(s);
-    writer.Flush();
+    using(StreamWriter writer = new StreamWriter(stream)){
+        writer.Write(s);
+        writer.Flush();
+    }
     stream.Position = 0;
     return stream;
 }

@@ -23,6 +23,12 @@ namespace SQLBackup
             _dbReader = dbReader;
         }
 
+        public void Dispose()
+        {
+            _streamWriter.Flush();
+            _streamWriter?.Dispose();
+        }
+
         #region Private Methods
 
         /// <summary>
@@ -109,12 +115,6 @@ namespace SQLBackup
 
             // Insert New Line
             _streamWriter.WriteLine();
-        }
-
-        public void Dispose()
-        {
-            _streamWriter.Flush();
-            _streamWriter?.Dispose();
         }
     }
 }

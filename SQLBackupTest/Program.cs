@@ -12,12 +12,12 @@ namespace SQLBackupTest
     internal class Program
     {
         private const string ConnectionStringMac =
-                "server=localhost.mac;user id=onion;password=onion;persistsecurityinfo=True;database=onion;characterset=utf8;allowbatch=True;allowuservariables=True;"
+                "server=localhost.mac;user=onion;password=onion;persistsecurityinfo=True;database=onion;allowbatch=true;"
             ;
 
-        private const string FilePath = "C:\\Onion Inc\\Onion\\Backups\\backup.sql";
-        private const string FileHeader = "HEADER";
-        private const string Key = "Password";
+        private const string FilePath = @"C:\Onion Inc\Onion\Backups\onion.backup";
+        private const string FileHeader = @"HEADER";
+        private const string Key = @"Password";
 
         private static byte[] GetBytes(string input)
         {
