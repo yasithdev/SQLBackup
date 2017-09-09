@@ -3,16 +3,16 @@
 ## What is SQLBackup?
 **SQLBackup** is a toolkit for .NET developers that allow them to create SQL Dumps of their databases and restore from them without depending on `mysqldump` and other external executables.
 
-**Updated Feature: ** Added Encryption Support. To use encryption, simply use `SQLBackupEncrypted` class instead of `SQLBackup` class
+### Features
+* The current version of SQLBackup supports **MySQL** and **MariaDB**.
+* **NEW!** Added Encryption Support. To use encryption, simply instantiate `EncryptedSQLBackup` class instead of the `SQLBackup` class
 
-### Supported Databases
-The current version of SQLBackup supports **MySQL** and **MariaDB**.
+### Future Development
+* Add Customization options to specify the Content needed as the Output (i.e. Only Data, Only Tables and Views, etc)
+* Support for PostgreSQL and Microsoft SQL Server
+* Separate Test cases for each RDBMS
 
-### Plans for Future Development
-* Support for PostgreSQL
-* Test cases involving ALL data formats for each DBMS
-
-## Features
+## Sample Code
 
 ### 1. Backup to a Stream
 ```C#
@@ -48,6 +48,16 @@ using (IDBConnection connection = new MySqlConnection(someConnectionString))
     var backupProvider = new SqlBackup(command);
     backupProvider.RestoreDb(someStream);
 }
+```
+
+### 3. Using Encrypted Backup/Restore
+You can create encrypted backups similar to the given example. You only need to replace 
+```C#
+var backupProvider = new SqlBackup(command);
+```
+with the class `EncryptedSqlBackup`, and pass an `encryption key` (string) to encrypt/decrypt the stream content
+```C#
+var backupProvider = new EncryptedSqlBackup(command, encryptionKey);
 ```
 
 NOTE: Restoring from a string input is discouraged since it increases the memory footprint of this tool. However, if you really need it, you can use a method like this
