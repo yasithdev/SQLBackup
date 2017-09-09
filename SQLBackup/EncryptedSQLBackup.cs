@@ -1,29 +1,44 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace SQLBackup
 {
     public class EncryptedSqlBackup : SqlBackup
     {
-        public EncryptedSqlBackup(IDbCommand command, string encryptionKey) : base(command)
+        public EncryptedSqlBackup(IDbCommand command, byte[] encryptionKey) : base(command)
         {
-            EncryptionKey = Encoding.ASCII.GetBytes(encryptionKey);
+            if (encryptionKey == null || encryptionKey.Length != 16)
+                throw new ArgumentNullException(nameof(encryptionKey), @"128-bit Encryption Key needed");
+            Algorithm = new RijndaelManaged
+            {
+                Key = encryptionKey,
+                IV = encryptionKey.Reverse().ToArray()
+            };
+            Encryptor = Algorithm.CreateEncryptor(Algorithm.Key, Algorithm.IV);
+            Decryptor = Algorithm.CreateDecryptor(Algorithm.Key, Algorithm.IV);
         }
 
-        public byte[] EncryptionKey { get; set; }
+        private SymmetricAlgorithm Algorithm { get; }
+        private ICryptoTransform Encryptor { get; }
+        private ICryptoTransform Decryptor { get; }
 
         public new void BackupDb(Stream s)
         {
-            var cryptoStream = new CryptoStream(s, new HMACSHA512(EncryptionKey), CryptoStreamMode.Write);
-            base.BackupDb(cryptoStream);
+            using (var cryptoStream = new CryptoStream(s, Encryptor, CryptoStreamMode.Write))
+            {
+                base.BackupDb(cryptoStream);
+            }
         }
 
         public new void RestoreDb(Stream s)
         {
-            var cryptoStream = new CryptoStream(s, new HMACSHA512(EncryptionKey), CryptoStreamMode.Read);
-            base.RestoreDb(cryptoStream);
+            using (var cryptoStream = new CryptoStream(s, Decryptor, CryptoStreamMode.Read))
+            {
+                base.RestoreDb(cryptoStream);
+            }
         }
     }
 }
