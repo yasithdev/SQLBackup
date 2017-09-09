@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using SQLBackup.SQLObjects;
 
 namespace SQLBackup
@@ -17,20 +20,6 @@ namespace SQLBackup
         public void Dispose()
         {
             DbCommand.Dispose();
-        }
-
-        public void BackupDb(out string s)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                // Backup to the memory stream 
-                var streamWriter = new StreamWriter(memoryStream);
-                BackupDb(streamWriter);
-                streamWriter.Flush();
-                // Create string from memory stream
-                memoryStream.Position = 0;
-                s = new StreamReader(memoryStream).ReadToEnd();
-            }
         }
 
         public void BackupDb(StreamWriter s)
@@ -68,17 +57,62 @@ namespace SQLBackup
             s.Flush();
         }
 
-        public void RestoreDb(string s)
-        {
-            DbCommand.CommandText = s;
-            DbCommand.ExecuteNonQuery();
-        }
-
         public void RestoreDb(StreamReader s)
         {
             s.BaseStream.Position = 0;
-            DbCommand.CommandText = s.ReadToEnd();
-            DbCommand.ExecuteNonQuery();
+            // Command
+            var c = string.Empty;
+            // Delimiter
+            var d = ";";
+
+            while (!s.EndOfStream)
+            {
+                // Current Line
+                var l = s.ReadLine()?.Trim();
+                if (string.IsNullOrWhiteSpace(l)) continue;
+                // First Character of Line
+                var chr = l[0];
+                if (chr == '#' || chr == '-') continue;
+
+                while (true)
+                {
+                    // Matcher for Delimiter
+                    var dm = Regex.Match(l, $@"(?<!\\){d}", RegexOptions.IgnoreCase);
+                    // Matcher for New Delimiter
+                    var ndm = Regex.Match(l, @"(?<=DELIMITER\s+).+?(?=(\s|$))", RegexOptions.IgnoreCase);
+
+                    // If no matches found
+                    if (!dm.Success && !ndm.Success)
+                    {
+                        // Append whole line to command and break
+                        if (l.Trim() != string.Empty) c += l.Trim() + "\r\n";
+                        break;
+                    }
+                    // One or more regexes have matched. Get assign indexes or MaxValue to variables
+                    var di = dm.Success ? dm.Index : int.MaxValue;
+                    var ndi = ndm.Success ? ndm.Index : int.MaxValue;
+                    // Check which comes first
+                    if (di < ndi)
+                    {
+                        // First occurence is delimiter index.
+                        // Ignore others since they get handled in next iteration
+                        c += l.Substring(0, dm.Index);
+                        DbCommand.CommandText = c;
+                        DbCommand.ExecuteNonQuery();
+                        c = string.Empty;
+                        l = l.Substring(dm.Index + dm.Length).Trim();
+                    }
+                    else
+                    {
+                        // First occurence is new delimiter.
+                        // Ignore others since they get handled in next iteration
+                        // IMPORTANT: When assigning the delimiter, make sure to escape all characters
+                        d = Regex.Escape(l.Substring(ndm.Index, ndm.Length));
+                        l = l.Substring(ndm.Index + ndm.Length).Trim();
+                    }
+                    if (l == string.Empty) break;
+                }
+            }
         }
     }
 }

@@ -13,7 +13,7 @@
 
         public string GetDdl()
         {
-            return $"DELIMITER %%\r\n{ProcedureDdl}%%\r\nDELIMITER ;\r\n";
+            return $"DELIMITER |\r\n{ProcedureDdl}|\r\nDELIMITER ;\r\n";
         }
 
         public string GetDropSql()
