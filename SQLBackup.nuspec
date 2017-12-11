@@ -1,8 +1,8 @@
-<?xml version="1.0"?>
-<package >
-  <metadata>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata minClientVersion="2.8">
     <id>SQLBackup</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>SQL Backup/Restore Toolkit for .NET</description>
     <authors>Yasith Jayawardana</authors>
 
@@ -11,8 +11,7 @@
     <licenseUrl>https://raw.githubusercontent.com/yasithmilinda/SQLBackup/master/LICENSE</licenseUrl>
     <copyright>Copyright © 2017</copyright>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <releaseNotes>Initial Release. Supports both Encrypted and Raw Backups</releaseNotes>
-    <minClientVersion>3.5</minClientVersion>
+    <releaseNotes>Fix an issue which caused errors when delimiter found inside a SQL command</releaseNotes>
     <tags>SQL Backup</tags>
     <dependencies></dependencies>
   </metadata>

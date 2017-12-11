@@ -74,10 +74,10 @@ namespace SQLBackup
                 {
                     line = line.Trim();
                     if (line == string.Empty) break;
-                    // Matcher for Delimiter
-                    var dm = Regex.Match(line, $@"(?<!(\\|\')){delimiter}", RegexOptions.IgnoreCase);
-                    // Matcher for New Delimiter
-                    var ndm = Regex.Match(line, @"(?<=DELIMITER\s+).+?(?=(\s|$))", RegexOptions.IgnoreCase);
+                    // Matcher for Delimiter (AT END OF LINE)
+                    var dm = Regex.Match(line, $@"{delimiter}(?=$)", RegexOptions.IgnoreCase);
+                    // Matcher for New Delimiter (AT END OF LINE)
+                    var ndm = Regex.Match(line, @"(?<=DELIMITER\s+).+?(?=$)", RegexOptions.IgnoreCase);
 
                     // If no matches found, append to command and break
                     if (!dm.Success && !ndm.Success)
