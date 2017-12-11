@@ -20,7 +20,7 @@ namespace SQLBackup
             DbCommand.Dispose();
         }
 
-        public void BackupDb(Stream s)
+        public virtual void BackupDb(Stream s)
         {
             var dbReader = new DbReader(DbCommand);
             using (var backupCreator = new BackupCreator(new StreamWriter(s), dbReader))
@@ -56,7 +56,7 @@ namespace SQLBackup
             }
         }
 
-        public void RestoreDb(Stream s)
+        public virtual void RestoreDb(Stream s)
         {
             var sr = new StreamReader(s);
             var command = string.Empty;

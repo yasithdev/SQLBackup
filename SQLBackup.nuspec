@@ -2,16 +2,17 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.8">
     <id>SQLBackup</id>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <description>SQL Backup/Restore Toolkit for .NET</description>
     <authors>Yasith Jayawardana</authors>
 
+    <title>SQL-Backup</title>
     <owners>Yasith Jayawardana</owners>
     <projectUrl>https://github.com/yasithmilinda/SQLBackup</projectUrl>
     <licenseUrl>https://raw.githubusercontent.com/yasithmilinda/SQLBackup/master/LICENSE</licenseUrl>
     <copyright>Copyright © 2017</copyright>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <releaseNotes>Fix an issue which caused errors when delimiter found inside a SQL command</releaseNotes>
+    <releaseNotes>Add Support for Compression of SQL. This drastically reduces the output size.</releaseNotes>
     <tags>SQL Backup</tags>
     <dependencies></dependencies>
   </metadata>

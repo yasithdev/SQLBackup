@@ -6,9 +6,9 @@ using System.Security.Cryptography;
 
 namespace SQLBackup
 {
-    public class EncryptedSqlBackup : SqlBackup
+    public class CompactEncryptedSqlBackup : CompactSqlBackup
     {
-        public EncryptedSqlBackup(IDbCommand command, byte[] encryptionKey) : base(command)
+        public CompactEncryptedSqlBackup(IDbCommand command, byte[] encryptionKey) : base(command)
         {
             if (encryptionKey == null || encryptionKey.Length != 16)
                 throw new ArgumentNullException(nameof(encryptionKey), @"128-bit Encryption Key needed");
